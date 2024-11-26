@@ -11,6 +11,4 @@ class RemoteDataSource(private val client: HttpClient) {
         client.get {
             url(HttpParam.CATEGORY)
         }
-
-
 }
