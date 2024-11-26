@@ -13,8 +13,4 @@ class RemoteDataSource(private val client: HttpClient) {
         }
 
 
-    suspend fun getChannelList(): HttpResponse =
-        client.get {
-            url(HttpParam.CHANNEL_LIST)
-        }
 }

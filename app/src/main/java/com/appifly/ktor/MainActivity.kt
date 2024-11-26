@@ -12,17 +12,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.appifly.ktor.ui.theme.KtorTheme
+import com.appifly.ktor.viewmodel.CategoryViewModel
+import org.koin.androidx.compose.navigation.koinNavViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+
             KtorTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+
                     Greeting(
                         name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier.padding(innerPadding), viewModel = koinNavViewModel()
                     )
                 }
             }
@@ -31,7 +35,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Greeting(name: String, modifier: Modifier = Modifier, viewModel: CategoryViewModel) {
+
+    viewModel.fetchAllCategory()
     Text(
         text = "Hello $name!",
         modifier = modifier
@@ -42,6 +48,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     KtorTheme {
-        Greeting("Android")
+        // Greeting("Android")
     }
 }

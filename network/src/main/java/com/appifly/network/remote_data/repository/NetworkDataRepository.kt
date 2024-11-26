@@ -8,9 +8,6 @@ import com.appifly.network.remote_data.model.tv_shows.TvShowsResponse
 
 interface NetworkDataRepository {
 
-    suspend fun getAllCategory():CategoryResponse
-    suspend fun getAllChannel():ChannelResponse
-    suspend fun getAllBanner():BannerResponse
-    suspend fun getAllTvShows():TvShowsResponse
-    suspend fun getAllAddId():AdConfigResponse
+    suspend fun getAllCategory():Result<CategoryResponse>
+
 }
