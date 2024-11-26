@@ -24,7 +24,7 @@ class KtorHttpClient {
 
     private val client = HttpClient(Android) {
         defaultRequest {
-            url("http://68.183.63.105/basictvapp/api/")
+            url("BASE_URL")
             contentType(ContentType.Application.Json)
             accept(ContentType.Application.Json)
         }
