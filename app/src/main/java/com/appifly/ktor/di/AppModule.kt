@@ -1,6 +1,5 @@
 package com.appifly.ktor.di
 
-import com.appifly.ktor.viewmodel.viewModelModule
 import com.appifly.network.di.dispatchersModule
 import com.appifly.network.di.remoteDataSourceModule
 import com.appifly.network.di.remoteRepositoryModule

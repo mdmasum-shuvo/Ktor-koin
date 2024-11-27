@@ -10,6 +10,6 @@ fun WeatherResponse.toDto(): WeatherDto {
     return WeatherDto(
         temp = main?.temp,
         feelLike = main?.feelsLike,
-        weatherType = WeatherUtils.checkWeatherType(weather?.get(0)?.id)
+        weatherType = WeatherUtils.checkWeatherType(clouds?.all)
     )
 }
