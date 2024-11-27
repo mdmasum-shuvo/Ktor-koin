@@ -13,7 +13,13 @@ android {
         buildConfigField(
                 "String",
                 "BASE_URL",
-                "\"" + "http://68.183.63.105/basictvapp/api/" + "\""
+                "\"" + "https://api.openweathermap.org/data/2.5/" + "\""
+        )
+
+        buildConfigField(
+                "String",
+                "API_KEY",
+                "\"" + "ab1f8a2dcc97e5eb2d08135be2c26945" + "\""
         )
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

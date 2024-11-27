@@ -1,17 +1,17 @@
 package com.appifly.network.remote_data.repository
 
-import com.appifly.network.remote_data.model.category.CategoryResponse
+import com.appifly.network.data_object_model.WeatherDto
 
 interface GetAllCategoryApiUseCase {
-    suspend operator fun invoke(): Result<CategoryResponse>
+    suspend operator fun invoke(lat:Double,lng:Double): Result<WeatherDto>
 }
 
 
 class GetAllCategoryApiUseCaseImpl(private val repository: NetworkDataRepository) :
     GetAllCategoryApiUseCase {
 
-    override suspend fun invoke(): Result<CategoryResponse> {
-        return repository.getAllCategory()
+    override suspend fun invoke(lat:Double,lng:Double): Result<WeatherDto> {
+        return repository.getAllCategory(lat,lng)
     }
 
 }

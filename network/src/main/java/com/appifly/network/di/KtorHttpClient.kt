@@ -1,6 +1,7 @@
 package com.appifly.network.di
 
 import android.util.Log
+import com.appifly.network.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.DefaultRequest
@@ -24,7 +25,7 @@ class KtorHttpClient {
 
     private val client = HttpClient(Android) {
         defaultRequest {
-            url("BASE_URL")
+            url(BuildConfig.BASE_URL)
             contentType(ContentType.Application.Json)
             accept(ContentType.Application.Json)
         }
