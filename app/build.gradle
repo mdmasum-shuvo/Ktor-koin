@@ -15,7 +15,7 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-
+        manifestPlaceholders = [googleMapsApiKey: getMapApiKey()]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
@@ -55,6 +55,18 @@ android {
     }
 }
 
+def getMapApiKey() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+    String api_key = properties.getProperty("GOOGLE_MAPS_API_KEY")
+
+    if (api_key == null)
+        throw new GradleException("")
+
+    return api_key
+}
+
 dependencies {
 
     implementation libs.androidx.core.ktx
@@ -91,6 +103,14 @@ dependencies {
     implementation libs.retrofit2.kotlin.coroutines.adapter
 
     implementation libs.koin.android
+    // Google Maps Compose View
+    implementation libs.maps.compose
+
+    // Location
+    implementation libs.play.services.location
+
+    // Accompanist Permissions
+    implementation libs.accompanist.permissions
 
 
 }

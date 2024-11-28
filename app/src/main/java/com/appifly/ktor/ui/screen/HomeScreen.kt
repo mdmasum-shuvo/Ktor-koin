@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
@@ -17,8 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.appifly.ktor.ui.component.BasicTextField
 import com.appifly.ktor.ui.component.ImageNormal
+import com.appifly.ktor.ui.component.LocationFieldWithIcon
 import com.appifly.ktor.ui.component.Spacer16DPH
 import com.appifly.ktor.ui.component.TextFieldWithBorder
 import com.appifly.ktor.ui.component.TextView24_W500
@@ -30,25 +33,38 @@ import com.appifly.ktor.ui.theme.white_color
 
 @Composable
 fun HomeScreen() {
-    val input = remember {
+    val latitude = remember {
         mutableStateOf("")
     }
+
+    val longitude = remember {
+        mutableStateOf("")
+    }
+
+
     Box(
         Modifier
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        Purple80, Purple40
-                        // End color (Teal)
+                        Purple40, Purple80
                     )
                 )
             )
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
+            LocationFieldWithIcon(
+                title = "Selected Location",
+                latitude = latitude,
+                longitude = longitude
+            )
+            Spacer16DPH()
 
             Row {
                 Icon(Icons.Default.LocationOn, contentDescription = "Icon", tint = white_color)

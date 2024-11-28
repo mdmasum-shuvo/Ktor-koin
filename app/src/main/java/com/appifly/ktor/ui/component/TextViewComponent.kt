@@ -36,10 +36,56 @@ fun TextView68_W700(
 }
 
 @Composable
+fun TextView12_W700(
+    modifier: Modifier = Modifier,
+    value: String,
+    color: Color =Color.Black,
+    textAlign: TextAlign = TextAlign.Start,
+    textDecoration: TextDecoration = TextDecoration.None,
+    overflow: TextOverflow = TextOverflow.Visible,
+    style: TextStyle = TextStyle()
+) {
+    Text(
+        modifier = modifier,
+        text = value,
+        color = color,
+        style = TextStyle(
+            fontWeight = FontWeight.W700,
+            fontSize = 12.sp).plus(style),
+        textAlign = textAlign,
+        overflow = overflow,
+        textDecoration = textDecoration
+    )
+}
+
+@Composable
+fun TextView16_W600(
+    modifier: Modifier = Modifier,
+    value: String,
+    color: Color = Color.Black,
+    textAlign: TextAlign = TextAlign.Start,
+    textDecoration: TextDecoration = TextDecoration.None,
+    overflow: TextOverflow = TextOverflow.Visible,
+    style: TextStyle = TextStyle()
+) {
+    Text(
+        modifier = modifier,
+        text = value,
+        color = color,
+        style = TextStyle(
+            fontWeight = FontWeight.W600,
+            fontSize = 16.sp).plus(style),
+        textAlign = textAlign,
+        overflow = overflow,
+        textDecoration = textDecoration
+    )
+}
+
+@Composable
 fun TextView16_W400(
     modifier: Modifier = Modifier,
     value: String,
-    color: Color = MaterialTheme.colorScheme.tertiary,
+    color: Color =Color.Black,
     textAlign: TextAlign = TextAlign.Start,
     textDecoration: TextDecoration = TextDecoration.None,
     overflow: TextOverflow = TextOverflow.Visible,
@@ -62,7 +108,7 @@ fun TextView16_W400(
 fun TextView24_W500(
     modifier: Modifier = Modifier,
     value: String,
-    color: Color = MaterialTheme.colorScheme.tertiary,
+    color: Color =Color.Black,
     textAlign: TextAlign = TextAlign.Start,
     textDecoration: TextDecoration = TextDecoration.None,
     overflow: TextOverflow = TextOverflow.Visible,

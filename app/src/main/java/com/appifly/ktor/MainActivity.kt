@@ -12,6 +12,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.appifly.ktor.route.HomeScreen
+import com.appifly.ktor.route.SearchScreen
+import com.appifly.ktor.ui.screen.HomeScreen
 import com.appifly.ktor.ui.screen.SearchScreen
 import com.appifly.ktor.ui.theme.KtorTheme
 import com.appifly.ktor.viewmodel.CategoryViewModel
@@ -20,31 +26,38 @@ import org.koin.androidx.compose.navigation.koinNavViewModel
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             KtorTheme {
+                val navController = rememberNavController()
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 
                     Column(modifier = Modifier.padding(innerPadding)) {
-                        SearchScreen()
-                    }
+                        NavHost(
+                            navController = navController,
+                            startDestination = HomeScreen
+                        ) {
+                            composable<HomeScreen> {
+                                HomeScreen()
+                            }
 
+                            composable<SearchScreen> {
+                                SearchScreen()
+                            }
+                        }
+
+                    }
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier, viewModel: CategoryViewModel) {
 
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    KtorTheme {
-        // Greeting("Android")
+    @Preview(showBackground = true)
+    @Composable
+    fun GreetingPreview() {
+        KtorTheme {
+            // Greeting("Android")
+        }
     }
-}

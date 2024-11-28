@@ -59,7 +59,7 @@ fun TextFieldWithBorder(
     ) {
         Row(
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.primary)
+                .background(white_color)
                 .padding(horizontal = 12.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
