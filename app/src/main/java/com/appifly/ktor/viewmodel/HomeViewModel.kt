@@ -6,24 +6,26 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.appifly.network.data_object_model.WeatherDto
-import com.appifly.network.remote_data.model.category.CategoryResponse
 import com.appifly.network.remote_data.repository.GetAllCategoryApiUseCase
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
 
-class CategoryViewModel(private val categoryUseCase: GetAllCategoryApiUseCase) : ViewModel() {
+class HomeViewModel(private val categoryUseCase: GetAllCategoryApiUseCase) : ViewModel() {
 
     private var _categoryList: MutableLiveData<WeatherDto> = MutableLiveData()
 
     val categoryList: LiveData<WeatherDto>
         get() = _categoryList
 
-    init {
-        fetchAllCategory()
-    }
+    private var _selectedLocation: MutableLiveData<LatLng> = MutableLiveData()
 
-    fun fetchAllCategory() {
+    private val selectedLocation: LiveData<LatLng>
+        get() = _selectedLocation
+
+    fun fetchAllCategory(latLng: LatLng) {
+        _selectedLocation.value=latLng
         viewModelScope.launch {
-            val categoryUseCase = categoryUseCase(23.781156,90.4134727)
+            val categoryUseCase = categoryUseCase(selectedLocation.value?.latitude!!, selectedLocation.value?.longitude!!)
 
             categoryUseCase.onSuccess {
                 _categoryList.value = it
@@ -31,5 +33,7 @@ class CategoryViewModel(private val categoryUseCase: GetAllCategoryApiUseCase) :
             Log.e("", "")
         }
     }
+
+
 
 }

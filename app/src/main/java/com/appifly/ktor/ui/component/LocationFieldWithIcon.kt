@@ -50,22 +50,30 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import kotlinx.coroutines.delay
 
 
 @Composable
 fun LocationFieldWithIcon(
     title: String,
-    latitude: MutableState<String>,
-    longitude: MutableState<String>,
     color: Color =Color.Black,
     placeholder: String = "Latitude, Longitude",
-    isBorderEnable: Boolean = true
+    isBorderEnable: Boolean = true,
+    onLocationSelected: (LatLng) -> Unit = {}
 ) {
     // Set properties using MapProperties which you can use to recompose the map
     val mapProperties by remember {
         mutableStateOf(
             MapProperties(maxZoomPreference = 20f, minZoomPreference = 5f)
         )
+    }
+
+    val latitude = remember {
+        mutableStateOf("")
+    }
+
+    val longitude = remember {
+        mutableStateOf("")
     }
 
     val mapUiSettings by remember {
@@ -106,6 +114,8 @@ fun LocationFieldWithIcon(
     LaunchedEffect(cameraPositionState.position.target) {
         latitude.value = cameraPositionState.position.target.latitude.toString()
         longitude.value = cameraPositionState.position.target.longitude.toString()
+        delay(1000)
+        onLocationSelected(LatLng( latitude.value.toDouble(), longitude.value.toDouble()))
     }
 
     Column {
@@ -195,8 +205,6 @@ fun PreviewLocationField() {
             ) {
                 LocationFieldWithIcon(
                     title = "Selected Location",
-                    latitude = remember { mutableStateOf("") },
-                    longitude = remember { mutableStateOf("") }
                 )
                 Spacer12DPH()
             }

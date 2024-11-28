@@ -1,7 +1,6 @@
 package com.appifly.ktor.ui.screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,34 +11,25 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.appifly.ktor.ui.component.BasicTextField
 import com.appifly.ktor.ui.component.ImageNormal
 import com.appifly.ktor.ui.component.LocationFieldWithIcon
 import com.appifly.ktor.ui.component.Spacer16DPH
-import com.appifly.ktor.ui.component.TextFieldWithBorder
 import com.appifly.ktor.ui.component.TextView24_W500
 import com.appifly.ktor.ui.component.TextView68_W700
 import com.appifly.ktor.ui.theme.KtorTheme
 import com.appifly.ktor.ui.theme.Purple40
 import com.appifly.ktor.ui.theme.Purple80
 import com.appifly.ktor.ui.theme.white_color
+import com.appifly.ktor.viewmodel.HomeViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun HomeScreen() {
-    val latitude = remember {
-        mutableStateOf("")
-    }
-
-    val longitude = remember {
-        mutableStateOf("")
-    }
+fun HomeScreen(homeViewModel: HomeViewModel = koinViewModel()) {
 
 
     Box(
@@ -60,9 +50,9 @@ fun HomeScreen() {
                 .padding(16.dp)
         ) {
             LocationFieldWithIcon(
-                title = "Selected Location",
-                latitude = latitude,
-                longitude = longitude
+                title = "Selected Location", onLocationSelected = { latLng ->
+                    homeViewModel.fetchAllCategory(latLng)
+                }
             )
             Spacer16DPH()
 
@@ -73,7 +63,7 @@ fun HomeScreen() {
             Spacer16DPH()
             ImageNormal(modifier = Modifier.wrapContentHeight())
             Spacer16DPH()
-            TextView68_W700(value = "19°C", color = white_color)
+            TextView68_W700(value = "${homeViewModel.categoryList.value?.temp}°C", color = white_color)
             TextView24_W500(value = "Cloudy", color = white_color)
 
         }
