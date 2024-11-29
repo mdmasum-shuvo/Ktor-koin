@@ -8,8 +8,9 @@ import com.appifly.network.util.WeatherUtils
 fun WeatherResponse.toDto(): WeatherDto {
 
     return WeatherDto(
-        temp = main?.temp,
+        temp = WeatherUtils.kelvinToCelsius(main?.temp ?: 0.0),
         feelLike = main?.feelsLike,
-        weatherType = WeatherUtils.checkWeatherType(clouds?.all)
+        weatherType = WeatherUtils.checkWeatherType(clouds?.all),
+        icon = WeatherUtils.getIconUrl(weather?.get(0)?.icon ?: ""),
     )
 }

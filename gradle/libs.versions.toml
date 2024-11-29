@@ -28,6 +28,8 @@ ktor = "3.0.1"
 koin = "4.0.0"
 kotlinGradlePlugin = "1.7.20"
 gradle = "3.4.3"
+runtimeLivedata = "1.7.2"
+coil = "2.2.2"
 
 
 
@@ -35,7 +37,8 @@ gradle = "3.4.3"
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
-
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "runtimeLivedata" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

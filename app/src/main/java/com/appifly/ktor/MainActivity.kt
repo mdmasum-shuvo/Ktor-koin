@@ -1,5 +1,6 @@
 package com.appifly.ktor
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -7,9 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -18,6 +17,7 @@ import com.appifly.ktor.route.SearchScreen
 import com.appifly.ktor.ui.screen.HomeScreen
 import com.appifly.ktor.ui.screen.SearchScreen
 import com.appifly.ktor.ui.theme.KtorTheme
+import com.appifly.network.R
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                             startDestination = HomeScreen
                         ) {
                             composable<HomeScreen> {
-                                HomeScreen()
+                                HomeScreen(navController = navController)
                             }
 
                             composable<SearchScreen> {
@@ -50,10 +50,3 @@ class MainActivity : ComponentActivity() {
 }
 
 
-    @Preview(showBackground = true)
-    @Composable
-    fun GreetingPreview() {
-        KtorTheme {
-            // Greeting("Android")
-        }
-    }
