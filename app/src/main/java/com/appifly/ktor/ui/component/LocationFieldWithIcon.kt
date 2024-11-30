@@ -20,6 +20,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,10 +54,11 @@ import kotlinx.coroutines.delay
 @Composable
 fun LocationFieldWithIcon(
     title: String,
+    latitude:MutableState<String>,longitude:MutableState<String>,
     color: Color =Color.Black,
     placeholder: String = "Latitude, Longitude",
     isBorderEnable: Boolean = true,
-    onLocationSelected: (LatLng) -> Unit={}
+    onLocationSelected: (LatLng,Boolean) -> Unit
 ) {
     // Set properties using MapProperties which you can use to recompose the map
     val mapProperties by remember {
@@ -65,13 +67,7 @@ fun LocationFieldWithIcon(
         )
     }
 
-    val latitude = remember {
-        mutableStateOf("")
-    }
 
-    val longitude = remember {
-        mutableStateOf("")
-    }
 
     val mapUiSettings by remember {
         mutableStateOf(
@@ -84,6 +80,7 @@ fun LocationFieldWithIcon(
     }
 
     val isLocationClicked = remember { mutableStateOf(false) }
+    val isLocationButtonClicked = remember { mutableStateOf(false) }
     val currentLatLon = remember { mutableStateOf(LatAndLong()) }
 
     if (isLocationClicked.value) {
@@ -112,7 +109,8 @@ fun LocationFieldWithIcon(
         latitude.value = cameraPositionState.position.target.latitude.toString()
         longitude.value = cameraPositionState.position.target.longitude.toString()
         delay(1000)
-        onLocationSelected(LatLng(latitude.value.toDouble(), longitude.value.toDouble()))
+        onLocationSelected(LatLng(latitude.value.toDouble(), longitude.value.toDouble()),isLocationButtonClicked.value)
+        isLocationButtonClicked.value=true
     }
     LaunchedEffect(cameraPositionState.position.target, block)
 
@@ -159,6 +157,7 @@ fun LocationFieldWithIcon(
                     .size(24.dp)
                     .clickable {
                         isLocationClicked.value = true
+                        isLocationButtonClicked.value = true
                     }
             )
 
