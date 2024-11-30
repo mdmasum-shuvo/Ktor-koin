@@ -10,7 +10,7 @@ fun WeatherResponse.toDto(): WeatherDto {
     return WeatherDto(
         temp = WeatherUtils.kelvinToCelsius(main?.temp ?: 0.0),
         feelLike = main?.feelsLike,
-        weatherType = WeatherUtils.checkWeatherType(clouds?.all),
+        description = weather?.get(0)?.description,
         icon = WeatherUtils.getIconUrl(weather?.get(0)?.icon ?: ""),
     )
 }

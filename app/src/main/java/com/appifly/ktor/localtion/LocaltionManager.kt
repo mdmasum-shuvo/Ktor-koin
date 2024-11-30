@@ -114,9 +114,9 @@ fun locationUpdate() {
     locationCallback.let {
         //An encapsulation of various parameters for requesting
         // location through FusedLocationProviderClient.
-        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
-            .setMinUpdateIntervalMillis(1000)
-            .setMaxUpdateDelayMillis(1000)
+        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 15000)
+            .setMinUpdateIntervalMillis(15000)
+            .setMaxUpdateDelayMillis(15000)
             .build()
         //use FusedLocationProviderClient to request location update
         locationProvider.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())

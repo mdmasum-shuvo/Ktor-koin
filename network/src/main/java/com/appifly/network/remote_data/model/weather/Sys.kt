@@ -9,11 +9,11 @@ data class Sys(
      @SerialName("country")
     val country: String?,
      @SerialName("id")
-    val id: Int?,
+    val id: String?,
      @SerialName("sunrise")
-    val sunrise: Int?,
+    val sunrise: String?,
      @SerialName("sunset")
-    val sunset: Int?,
+    val sunset: String?,
      @SerialName("type")
-    val type: Int?
+    val type: String?
 )

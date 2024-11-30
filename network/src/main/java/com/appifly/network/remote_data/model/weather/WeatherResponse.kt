@@ -6,30 +6,28 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class WeatherResponse(
-     @SerialName("base")
+    @SerialName("base")
     val base: String?,
-     @SerialName("clouds")
+    @SerialName("clouds")
     val clouds: Clouds?,
-     @SerialName("cod")
+    @SerialName("cod")
     val cod: Int?,
-     @SerialName("coord")
+    @SerialName("coord")
     val coord: Coord?,
-     @SerialName("dt")
+    @SerialName("dt")
     val dt: Int?,
-     @SerialName("id")
+    @SerialName("id")
     val id: Int?,
-     @SerialName("main")
+    @SerialName("main")
     val main: Main?,
-     @SerialName("name")
+    @SerialName("name")
     val name: String?,
-     @SerialName("sys")
-    val sys: Sys?,
-     @SerialName("timezone")
+    @SerialName("timezone")
     val timezone: Int?,
-     @SerialName("visibility")
+    @SerialName("visibility")
     val visibility: Int?,
-     @SerialName("weather")
+    @SerialName("weather")
     val weather: List<Weather?>?,
-     @SerialName("wind")
+    @SerialName("wind")
     val wind: Wind?
 )

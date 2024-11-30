@@ -46,7 +46,12 @@ class HomeViewModel(
                 _categoryList.value = it
                isBackFromSearch = false
             }
-            Log.e("", "")
+
+
+            categoryUseCase.onFailure {
+                Log.e("", "")
+
+            }
         }
     }
 

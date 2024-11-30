@@ -6,6 +6,6 @@ import androidx.compose.runtime.Immutable
 data class WeatherDto(
     val temp: Double?,
     val feelLike: Double?,
-    val weatherType: String?,
+    val description: String?,
     val icon: String?
 )

@@ -15,13 +15,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.appifly.ktor.route.SELECTED_KEY
 import com.appifly.ktor.ui.component.ImageNormal
 import com.appifly.ktor.ui.component.LocationFieldWithIcon
 import com.appifly.ktor.ui.component.Spacer16DPH
@@ -44,10 +45,18 @@ fun HomeScreen(
     location: Location?
 ) {
     val context = LocalContext.current
+   // 23.8103, 90.4125
+    val latitude = remember {
+        mutableStateOf("0")
+    }
 
-
+    val longitude = remember {
+        mutableStateOf("0")
+    }
     LaunchedEffect(location) {
         if (location != null && location.coord?.lat != null && location.coord?.lon != null) {
+            latitude.value=location.coord?.lat.toString()
+            longitude.value=location.coord?.lon.toString()
             homeViewModel.fetchAllCategory(LatLng(location.coord?.lat!!, location.coord?.lon!!))
             homeViewModel.setLocationName(location.name ?: "")
         }
@@ -73,15 +82,18 @@ fun HomeScreen(
         ) {
             Row {
                 LocationFieldWithIcon(
-                    title = "Selected Location", onLocationSelected = { latLng ->
-                        homeViewModel.fetchAllCategory(latLng)
-                        homeViewModel.setLocationName(
-                            WeatherUtils.getAddressFromLatLong(
-                                context,
-                                latLng.latitude,
-                                longitude = latLng.longitude
+                    title = "Selected Location", latitude = latitude,longitude=longitude, onLocationSelected = { latLng, isClicked ->
+                        if (isClicked || location == null) {
+                            homeViewModel.fetchAllCategory(latLng)
+                            homeViewModel.setLocationName(
+                                WeatherUtils.getAddressFromLatLong(
+                                    context,
+                                    latLng.latitude,
+                                    longitude = latLng.longitude
+                                )
                             )
-                        )
+                        }
+
                     }
                 )
             }
@@ -105,7 +117,7 @@ fun HomeScreen(
                     color = white_color
                 )
                 TextView24_W500(
-                    value = data.weatherType ?: "",
+                    value = data.description ?: "",
                     color = white_color
                 )
 
