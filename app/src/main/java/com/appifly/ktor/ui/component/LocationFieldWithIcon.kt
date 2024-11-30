@@ -20,6 +20,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,10 +54,12 @@ import kotlinx.coroutines.delay
 @Composable
 fun LocationFieldWithIcon(
     title: String,
-    color: Color =Color.Black,
+    latitude: MutableState<String>,
+    longitude: MutableState<String>,
+    color: Color = Color.Black,
     placeholder: String = "Latitude, Longitude",
     isBorderEnable: Boolean = true,
-    onLocationSelected: (LatLng) -> Unit={}
+    onLocationSelected: (LatLng, Boolean) -> Unit
 ) {
     // Set properties using MapProperties which you can use to recompose the map
     val mapProperties by remember {
@@ -65,25 +68,23 @@ fun LocationFieldWithIcon(
         )
     }
 
-    val latitude = remember {
-        mutableStateOf("")
-    }
-
-    val longitude = remember {
-        mutableStateOf("")
-    }
 
     val mapUiSettings by remember {
         mutableStateOf(
-            MapUiSettings(compassEnabled = false, mapToolbarEnabled = false, zoomControlsEnabled = false)
+            MapUiSettings(
+                compassEnabled = false, mapToolbarEnabled = false, zoomControlsEnabled = false
+            )
         )
     }
 
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(LatLng(23.8103, 90.4125), 15f)  // Center point of Dhaka for initial MapView
+        position = CameraPosition.fromLatLngZoom(
+            LatLng(latitude.value.toDouble(), longitude.value.toDouble()), 15f
+        )  // Center point of Dhaka for initial MapView
     }
 
     val isLocationClicked = remember { mutableStateOf(false) }
+    val isLocationButtonClicked = remember { mutableStateOf(false) }
     val currentLatLon = remember { mutableStateOf(LatAndLong()) }
 
     if (isLocationClicked.value) {
@@ -92,8 +93,7 @@ fun LocationFieldWithIcon(
 
     LaunchedEffect(key1 = latitude.value, key2 = longitude.value) {
         // checking if location value is changed
-        if (currentLatLon.value.latitude != latitude.value.toDoubleOrNull() ||
-            currentLatLon.value.longitude != longitude.value.toDoubleOrNull()) {
+        if (currentLatLon.value.latitude != latitude.value.toDoubleOrNull() || currentLatLon.value.longitude != longitude.value.toDoubleOrNull()) {
             isLocationClicked.value = false
         }
     }
@@ -102,19 +102,19 @@ fun LocationFieldWithIcon(
         if (currentLatLon.value.latitude != 0.0 && currentLatLon.value.longitude != 0.0) {
             latitude.value = currentLatLon.value.latitude.toString()
             longitude.value = currentLatLon.value.longitude.toString()
-
+            onLocationSelected(
+                LatLng(latitude.value.toDouble(), longitude.value.toDouble()),
+                isLocationButtonClicked.value
+            )
             // update camera position of marker
-            cameraPositionState.position = CameraPosition.fromLatLngZoom(LatLng(currentLatLon.value.latitude, currentLatLon.value.longitude), 15f)
-        }
-    }
 
-    val block: suspend CoroutineScope.() -> Unit = {
-        latitude.value = cameraPositionState.position.target.latitude.toString()
-        longitude.value = cameraPositionState.position.target.longitude.toString()
-        delay(1000)
-        onLocationSelected(LatLng(latitude.value.toDouble(), longitude.value.toDouble()))
+        }
+        cameraPositionState.position = CameraPosition.fromLatLngZoom(
+            LatLng(
+                latitude.value.toDouble(),  longitude.value.toDouble()
+            ), 15f
+        )
     }
-    LaunchedEffect(cameraPositionState.position.target, block)
 
     Column {
         Row {
@@ -151,41 +151,16 @@ fun LocationFieldWithIcon(
                 color = if (placeholder.isNotEmpty() && latitude.value == "" && longitude.value == "") text_gray else color
             )
 
-            Icon(
-                painterResource(id = R.drawable.my_location),
+            Icon(painterResource(id = R.drawable.my_location),
                 "contentDescription",
                 tint = Purple40,
                 modifier = Modifier
                     .size(24.dp)
                     .clickable {
                         isLocationClicked.value = true
-                    }
-            )
-
+                        isLocationButtonClicked.value = true
+                    })
         }
-        if(!isBorderEnable) HorizontalDivider(color = gray_bg)
-
-        Spacer12DPH()
-        Card(modifier = Modifier
-            .fillMaxWidth()
-            .height(200.dp), shape = RoundedCornerShape(5.dp)) {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                GoogleMap(
-                    cameraPositionState = cameraPositionState,
-                    properties = mapProperties,
-                    uiSettings = mapUiSettings
-                ) {
-                    Marker(
-                        state = MarkerState(
-                            position = cameraPositionState.position.target
-                        )
-                    )
-                }
-            }
-        }
-
     }
 }
 
