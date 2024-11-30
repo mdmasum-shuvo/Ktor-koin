@@ -8,3 +8,5 @@ data object HomeScreen
 
 @Serializable
 data object SearchScreen
+
+const val  SELECTED_KEY="selectedLocation"

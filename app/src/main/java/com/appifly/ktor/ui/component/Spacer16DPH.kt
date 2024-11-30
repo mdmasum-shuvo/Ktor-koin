@@ -18,16 +18,16 @@ fun Spacer12DPH() {
 }
 
 @Composable
+fun Spacer8DPH() {
+    Spacer(modifier = Modifier.height(8.dp))
+}
+
+@Composable
 fun Spacer4DPH() {
     Spacer(modifier = Modifier.height(4.dp))
 }
 
 @Composable
 fun Spacer8DPW() {
-    Spacer(modifier = Modifier.height(8.dp))
-}
-
-@Composable
-fun Spacer4DPW() {
-    Spacer(modifier = Modifier.width(4.dp))
+    Spacer(modifier = Modifier.width(8.dp))
 }

@@ -58,7 +58,6 @@ fun BasicTextField(
         fontSize = 16.sp
     ),
     isKeyboardShown: Boolean = false,
-    inputValue: MutableState<String>,
     inputType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
     maxLine: Int = 1,
@@ -74,6 +73,7 @@ fun BasicTextField(
     onValueChanged: ((String) -> Unit)? = null,
     onClick: ((Boolean) -> Unit)? = null,
 ) {
+    val inputValue= remember { mutableStateOf("") }
 
     val addSpace = "          "
     val showKeyboard = remember { mutableStateOf(isKeyboardShown) }

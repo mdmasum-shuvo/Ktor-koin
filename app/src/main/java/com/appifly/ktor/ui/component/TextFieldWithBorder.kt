@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -25,7 +24,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import com.appifly.ktor.ui.theme.Purple40
 import com.appifly.ktor.ui.theme.gray_bg
 import com.appifly.ktor.ui.theme.text_gray
 import com.appifly.ktor.ui.theme.white_color
@@ -37,7 +35,6 @@ fun TextFieldWithBorder(
     startIcon: Int? = null,
     endIcon: Int? = null,
     isKeyboardShown: Boolean = false,
-    inputValue: MutableState<String>,
     inputType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Next,
     maxLine: Int = 1,
@@ -48,7 +45,8 @@ fun TextFieldWithBorder(
     isIndicatorLine: Boolean = false,
     isLeadingIcon: Boolean = false,
     leadingIcon: ImageVector? = null,
-    onIconClick: () -> Unit = {}
+    onIconClick: () -> Unit = {},
+    onValueChanged: ((String) -> Unit)? = null,
 ) {
     val isKeyboardVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
 
@@ -66,7 +64,9 @@ fun TextFieldWithBorder(
         ) {
             if (startIcon != null) {
                 Icon(
-                    modifier = Modifier.size(24.dp).clickable { onIconClick() },
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable { onIconClick() },
                     painter = painterResource(id = startIcon),
                     tint = Color.Unspecified, // Icon Color
                     contentDescription = "Start Icon"
@@ -76,7 +76,6 @@ fun TextFieldWithBorder(
             BasicTextField(
                 isKeyboardShown = isKeyboardShown,
                 modifier = modifier.weight(1f),
-                inputValue = inputValue,
                 inputType = inputType,
                 imeAction = imeAction,
                 maxLine = maxLine,
@@ -87,12 +86,16 @@ fun TextFieldWithBorder(
                 isBorderEnable = false,
                 isIndicatorLine = isIndicatorLine,
                 isLeadingIcon = isLeadingIcon,
-                leadingIcon = leadingIcon
+                leadingIcon = leadingIcon, onValueChanged = { value ->
+                    onValueChanged!!(value)
+                }
             )
             if (endIcon != null) {
                 Spacer8DPW()
                 Icon(
-                    modifier = Modifier.size(24.dp).clickable { onIconClick() },
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable { onIconClick() },
                     painter = painterResource(id = endIcon),
                     tint = Color.Unspecified, // Icon Color
                     contentDescription = "End Icon"

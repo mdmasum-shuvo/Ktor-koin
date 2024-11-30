@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
                             }
 
                             composable<SearchScreen> {
-                                SearchScreen()
+                                SearchScreen(navController = navController)
                             }
                         }
 
