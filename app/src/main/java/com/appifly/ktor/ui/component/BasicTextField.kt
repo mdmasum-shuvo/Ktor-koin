@@ -24,6 +24,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.focus.FocusRequester
@@ -73,7 +74,7 @@ fun BasicTextField(
     onValueChanged: ((String) -> Unit)? = null,
     onClick: ((Boolean) -> Unit)? = null,
 ) {
-    val inputValue= remember { mutableStateOf("") }
+    val inputValue= rememberSaveable  { mutableStateOf("") }
 
     val addSpace = "          "
     val showKeyboard = remember { mutableStateOf(isKeyboardShown) }

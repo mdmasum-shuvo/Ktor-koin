@@ -32,8 +32,7 @@ fun SearchScreen(searchViewModel: SearchViewModel = koinViewModel(), navControll
     val context = LocalContext.current
 
     LaunchedEffect(true) {
-        val json = WeatherUtils.loadJsonFromAssets(context, "Zila.json")
-        searchViewModel.setLocationData(Json.decodeFromString<List<Location>>(json))
+
     }
 
     Surface(color = light_gray) {
@@ -51,8 +50,6 @@ fun SearchScreen(searchViewModel: SearchViewModel = koinViewModel(), navControll
                         dataList,
                         key = { item -> item.id ?: 0 }) { item ->
                         ZilaItem(item.name) {
-                            val searchResult = "New Location"  // Simulated search result
-
                             // Pass the result back to HomeScreen using savedStateHandle
                             navController.popBackStack()
                             navController.currentBackStackEntry?.savedStateHandle?.set(SELECTED_KEY, Json.encodeToString(item))

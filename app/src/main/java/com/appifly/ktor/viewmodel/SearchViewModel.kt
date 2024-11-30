@@ -1,18 +1,26 @@
 package com.appifly.ktor.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.appifly.network.asset_data.zilla_data.Location
+import com.appifly.network.util.WeatherUtils
+import kotlinx.serialization.json.Json
 
-class SearchViewModel : ViewModel() {
+class SearchViewModel (context:Context) : ViewModel() {
 
     private val _locationList: MutableLiveData<List<Location>> = MutableLiveData(emptyList())
 
     private val _filteredLocationList: MutableLiveData<List<Location>> = MutableLiveData(emptyList())
     val filteredLocationList: LiveData<List<Location>> get() = _filteredLocationList
 
-    fun setLocationData(list: List<Location>) {
+    init {
+        val json = WeatherUtils.loadJsonFromAssets(context, "Zila.json")
+        setLocationData(Json.decodeFromString<List<Location>>(json))
+    }
+
+    private fun setLocationData(list: List<Location>) {
         _locationList.value = list
         _filteredLocationList.value = list // Initialize filtered list
     }
@@ -25,4 +33,6 @@ class SearchViewModel : ViewModel() {
             currentList.filter { it.name!!.contains(query, ignoreCase = true) }
         }
     }
+
+
 }

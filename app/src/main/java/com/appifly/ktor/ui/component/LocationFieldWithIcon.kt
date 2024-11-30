@@ -83,7 +83,7 @@ fun LocationFieldWithIcon(
         )  // Center point of Dhaka for initial MapView
     }
 
-    val isLocationClicked = remember { mutableStateOf(false) }
+    val isLocationClicked = remember { mutableStateOf(true) }
     val isLocationButtonClicked = remember { mutableStateOf(false) }
     val currentLatLon = remember { mutableStateOf(LatAndLong()) }
 
