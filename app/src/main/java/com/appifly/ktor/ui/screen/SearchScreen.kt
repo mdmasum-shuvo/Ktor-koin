@@ -13,6 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.appifly.ktor.R
+import com.appifly.ktor.route.HomeScreen
 import com.appifly.ktor.route.SELECTED_KEY
 import com.appifly.ktor.ui.component.Spacer16DPH
 import com.appifly.ktor.ui.component.Spacer8DPH
@@ -22,6 +23,7 @@ import com.appifly.ktor.ui.theme.light_gray
 import com.appifly.ktor.viewmodel.SearchViewModel
 import com.appifly.network.asset_data.zilla_data.Location
 import com.appifly.network.util.WeatherUtils
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.koin.androidx.compose.koinViewModel
 
@@ -49,12 +51,14 @@ fun SearchScreen(searchViewModel: SearchViewModel = koinViewModel(), navControll
                         dataList,
                         key = { item -> item.id ?: 0 }) { item ->
                         ZilaItem(item.name) {
-                            // Pass the result back and navigate up
-                            navController.previousBackStackEntry?.savedStateHandle?.set(
-                                SELECTED_KEY,
-                                item
-                            )
-                            navController.navigateUp()
+                            val searchResult = "New Location"  // Simulated search result
+
+                            // Pass the result back to HomeScreen using savedStateHandle
+                            navController.popBackStack()
+                            navController.currentBackStackEntry?.savedStateHandle?.set(SELECTED_KEY, Json.encodeToString(item))
+
+                            // Navigate back to HomeScreen
+                           // navController.navigateUp()
                         }
                         Spacer8DPH()
                     }

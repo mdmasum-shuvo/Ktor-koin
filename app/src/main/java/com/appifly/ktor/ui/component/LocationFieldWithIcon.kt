@@ -51,6 +51,7 @@ import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 
 
@@ -60,7 +61,7 @@ fun LocationFieldWithIcon(
     color: Color =Color.Black,
     placeholder: String = "Latitude, Longitude",
     isBorderEnable: Boolean = true,
-    onLocationSelected: (LatLng) -> Unit = {}
+    onLocationSelected: (LatLng) -> Unit={}
 ) {
     // Set properties using MapProperties which you can use to recompose the map
     val mapProperties by remember {
@@ -112,12 +113,13 @@ fun LocationFieldWithIcon(
         }
     }
 
-    LaunchedEffect(cameraPositionState.position.target) {
+    val block: suspend CoroutineScope.() -> Unit = {
         latitude.value = cameraPositionState.position.target.latitude.toString()
         longitude.value = cameraPositionState.position.target.longitude.toString()
         delay(1000)
-        onLocationSelected(LatLng( latitude.value.toDouble(), longitude.value.toDouble()))
+        onLocationSelected(LatLng(latitude.value.toDouble(), longitude.value.toDouble()))
     }
+    LaunchedEffect(cameraPositionState.position.target, block)
 
     Column {
         Row {
@@ -192,23 +194,3 @@ fun LocationFieldWithIcon(
     }
 }
 
-
-@Preview
-@Composable
-fun PreviewLocationField() {
-    KtorTheme {
-        Surface(color = light_gray) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                LocationFieldWithIcon(
-                    title = "Selected Location",
-                )
-                Spacer12DPH()
-            }
-        }
-    }
-}

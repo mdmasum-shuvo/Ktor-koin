@@ -13,11 +13,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.appifly.ktor.route.HomeScreen
+import com.appifly.ktor.route.SELECTED_KEY
 import com.appifly.ktor.route.SearchScreen
 import com.appifly.ktor.ui.screen.HomeScreen
 import com.appifly.ktor.ui.screen.SearchScreen
 import com.appifly.ktor.ui.theme.KtorTheme
 import com.appifly.network.R
+import com.appifly.network.asset_data.zilla_data.Location
+import kotlinx.serialization.json.Json
+import kotlin.math.absoluteValue
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,13 +35,15 @@ class MainActivity : ComponentActivity() {
                     Column(modifier = Modifier.padding(innerPadding)) {
                         NavHost(
                             navController = navController,
-                            startDestination = HomeScreen
+                            startDestination = "HomeScreen"
                         ) {
-                            composable<HomeScreen> {
-                                HomeScreen(navController = navController)
+                            composable("HomeScreen"){backStackEntry->
+                               val data= backStackEntry.savedStateHandle.get<String>(SELECTED_KEY)
+                                val location= data?.let { Json.decodeFromString<Location>(it) }
+                                HomeScreen(navController = navController, location = location)
                             }
 
-                            composable<SearchScreen> {
+                            composable("SearchScreen") {backStackEntry->
                                 SearchScreen(navController = navController)
                             }
                         }
